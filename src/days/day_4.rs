@@ -1,4 +1,4 @@
-use std::collections::{HashSet, HashMap, VecDeque};
+use std::collections::{HashMap, HashSet, VecDeque};
 
 #[derive(Debug, Clone)]
 struct Card {
@@ -9,9 +9,9 @@ struct Card {
 impl Card {
     fn get_score(&self) -> usize {
         if self.winning_numbers_count <= 1 {
-            return self.winning_numbers_count
+            return self.winning_numbers_count;
         }
-        2usize.pow((self.winning_numbers_count-1) as u32)
+        2usize.pow((self.winning_numbers_count - 1) as u32)
     }
     fn from_str(input: &str) -> Option<Self> {
         if let Some((info, numbers)) = input.split_once(":") {
@@ -32,12 +32,12 @@ impl Card {
                             for my_str in mine.split(" ") {
                                 if let Ok(my_no) = my_str.parse::<usize>() {
                                     if winning_numbers.contains(&my_no) {
-                                        card.winning_numbers_count+=1;
+                                        card.winning_numbers_count += 1;
                                     }
                                 }
                             }
                         }
-                        return Some(card)
+                        return Some(card);
                     }
                 }
             }
@@ -50,7 +50,7 @@ pub fn part1(input: String) -> usize {
     let mut points = 0;
     for line in input.split("\n") {
         if let Some(card) = Card::from_str(line) {
-            points+=card.get_score();
+            points += card.get_score();
         }
     }
     points
@@ -63,19 +63,19 @@ pub fn part2(input: String) -> usize {
         if let Some(card) = Card::from_str(line) {
             cards.insert(card.id, card);
         }
-    };
-    
+    }
+
     let mut cards_to_add = cards.values().collect::<Vec<&Card>>();
     let mut total_card_count: usize = cards_to_add.len();
-    
+
     while let Some(card) = cards_to_add.pop() {
-        for i in card.id+1..=card.id+card.winning_numbers_count {
+        for i in card.id + 1..=card.id + card.winning_numbers_count {
             if let Some(card_won) = cards.get(&i) {
-                total_card_count+=1;
+                total_card_count += 1;
                 cards_to_add.push(card_won);
             };
         }
-    };
-    
+    }
+
     total_card_count
 }

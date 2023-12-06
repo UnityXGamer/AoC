@@ -1,6 +1,6 @@
 use std::fs;
 
-use days::day_4::part2;
+use days::day_6::part2;
 
 pub mod days;
 
